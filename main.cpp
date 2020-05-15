@@ -2,6 +2,8 @@
 #include <iostream>
 #include <stdlib.h> 
 #include <time.h>
+#include <stdio.h>
+#include <conio.h>
 using namespace std;
 
 //conway(mat, x, y, turnos);
@@ -10,6 +12,20 @@ using namespace std;
 2.Cualquier célula viva con dos o tres vecinos vivos vive hasta la próxima generación.
 3.Cualquier célula vivacon más de tres vecinos vivos muere (por sobrepoblación).
 4.Cualquier célula muerta con exactamente tres vecinos vivos se convierte en una célula viva (por reproducción).*/
+void printCharMatrix(int ** matriz, int x,int y){
+	if(matriz!=NULL){
+		for(int i = 0; i<y;i++){
+			for(int j=0;j<x;j++){
+				if (matriz[i][j]!=0){
+					cout<<matriz[i][j]<<" "; 
+				}else{
+					cout<<"x"<<" ";
+				}
+			}
+			cout<<endl;
+		}//forj
+	}//endif	
+}
 
 void freeCharMatrix(int**& matriz, int x,int y){
 	//liberar la memoria de la matriz
@@ -26,20 +42,201 @@ void freeCharMatrix(int**& matriz, int x,int y){
 		matriz=NULL;
 	}
 }
-void printCharMatrix(int ** matriz, int x,int y){
-	if(matriz!=NULL){
-		for(int i = 0; i<y;i++){
-			for(int j=0;j<x;j++){
-				if (matriz[i][j]!=0){
-					cout<<matriz[i][j]<<" "; 
-				}else{
-					cout<<"x"<<" ";
+
+
+void Conway(int**& matriz, int x,int y, int turnos){
+	int round =1;
+	while (round <=turnos ){
+		for(int i=0;i < y; i++){
+			for (int j =0 ; j < x; j++){
+				int vecinos_vivos=0;
+				
+				//evaluacion de la primera celula
+				if (i==0 &&j==0){
+					//validaciones si i ==0 y j ==0
+					if (matriz[i+1][j]==1){
+						vecinos_vivos++;
+					}
+					if (matriz[i+1][j+1]==1){
+						vecinos_vivos++;
+					}
+					if (matriz[i][j+1]==1){
+						vecinos_vivos++;
+					}
+					
+					//Aqui veremos si hay que ponerle el cambio aqui o despues jeje
+					
+				}else if(i==0	&&	j>0	&&	j<x-1){//validaciones de la primera fila
+					if (matriz[i][j-1]==1){
+						vecinos_vivos++;
+					}
+					if (matriz[i][j+1]==1){
+						vecinos_vivos++;
+					}
+					if (matriz[i+1][j-1]==1){
+						vecinos_vivos++;
+					}
+					if (matriz[i+1][j]==1){
+						vecinos_vivos++;
+					}
+					if (matriz[i+1][j+1]){
+						vecinos_vivos++;
+					}
+					//Aqui veremos si hay que ponerle el cambio aqui o despues jeje
+				} else if (i==0 && j==x-1){ //evaluacion de la ultima celula de la primera fila
+					if(matriz[i][j-1]==1){
+						vecinos_vivos++;
+					}
+					if(matriz[i+1][j-1]){
+						vecinos_vivos++;
+					}
+					if (matriz[i+1][j]){
+						vecinos_vivos++;
+					}
+					
+				//Aqui veremos si hay que ponerle el cambio aqui o despues jeje
+				}else if (j==0 && i <y-1){ 	//validacion si la celula esta en la primera columna y no es la ultima de la columna
+					if (matriz[i-1][j]==1){
+						vecinos_vivos++;
+					}
+					if (matriz[i-1][j+1]==1){
+						vecinos_vivos++;
+					}
+					if (matriz[i][j+1]==1){
+						vecinos_vivos++;
+					}
+					if (matriz[i+1][j+1]==1){
+						vecinos_vivos++;
+					}
+					if (matriz[i+1][j]==1){
+						vecinos_vivos++;
+					}
+					//Aqui veremos si hay que ponerle el cambio aqui o despues jeje
+					
+				}else if ( j==x-1 && i!=y-1){	//validacion si es la ultima de la fila  //i==y-1 &&
+					if (matriz[i-1][j-1]==1){
+						vecinos_vivos++;
+					}
+					if (matriz[i-1][j]==1){
+						vecinos_vivos++;
+					}
+					if (matriz[i][j-1]==1){
+						vecinos_vivos++;
+					}
+					if (matriz[i+1][j-1]){
+						vecinos_vivos++;
+					}
+					if (matriz[i+1][j]){
+						vecinos_vivos++;
+					}
+					//Aqui veremos si hay que ponerle el cambio aqui o despues jeje
+					
+				}else if (i==y-1 && j==0){ //validacion si es la ultima de la columna y es la primera de la fila
+					if (matriz[i-1][j]==1){
+						vecinos_vivos++;
+					}
+					if (matriz[i-1][j+1]==1){
+						vecinos_vivos++;
+					}
+					if (matriz[i][j+1]==1){
+						vecinos_vivos++;
+					}
+				}else if (i==y-1 && j!=0 && j<x-2 ){ //validacion si esta en la ultima fila 
+					if (matriz[i][j-1]==1){
+						vecinos_vivos++;	
+					}
+					if (matriz[i-1][j-1]==1){
+						vecinos_vivos++;	
+					}
+					if (matriz[i-1][j]==1){
+						vecinos_vivos++;	
+					}
+					if (matriz[i-1][j+1]==1){
+						vecinos_vivos++;	
+					}
+					if (matriz[i][j+1]==1){
+						vecinos_vivos++;	
+					}
+					
+					
+				}else if( i==y-1 && j==x-1){//validacion si es la ultima de la fila y es la ultima de las columnas
+					if (matriz[i-1][j-1]==1){
+						vecinos_vivos++;	
+					}
+					if (matriz[i][j-1]==1){
+						vecinos_vivos++;	
+					}
+					if (matriz[i-1][j]==1){
+						vecinos_vivos++;	
+					}
+					
+					
+				}else{// este solo es para uno que este en cualquier lugar que no sea mencionado antes
+					if(matriz[i-1][j-1]==1){
+						vecinos_vivos++;
+					}
+					if(matriz[i][j-1]==1){
+						vecinos_vivos++;
+					}
+					if(matriz[i+1][j-1]==1){
+						vecinos_vivos++;
+					}
+					if(matriz[i-1][j]==1){
+						vecinos_vivos++;
+					}
+					if(matriz[i+1][j]==1){
+						vecinos_vivos++;
+					}
+					if(matriz[i-1][j+1]==1){
+						vecinos_vivos++;
+					}
+					if(matriz[i][j+1]==1){
+						vecinos_vivos++;
+					}
+					if(matriz[i+1][j+1]==1){
+						vecinos_vivos++;
+					}
+					
+					
 				}
+				// FINAL DE LAS VALIDACIONES 
+				// medir los vecinos y decision si vive o muere
+					/*1.Cualquier célula viva con menos de dos vecinos vivos muere (por subpoblación).
+					2.Cualquier célula viva con dos o tres vecinos vivos vive hasta la próxima generación.
+					3.Cualquier célula vivacon más de tres vecinos vivos muere (por sobrepoblación).
+					4.Cualquier célula muerta con exactamente tres vecinos vivos se convierte en una célula viva (por reproducción).*/
+				
+				if (matriz[i][j]==1){
+					if (vecinos_vivos<2){
+						matriz[i][j]=0;
+					}else if (vecinos_vivos==2 ||vecinos_vivos==3){
+						matriz[i][j]=1;
+					}else if (vecinos_vivos>3){
+						matriz[i][j]=0;
+					}
+				}else if (matriz[i][j]==0){
+					if (vecinos_vivos==3){
+						matriz[i][j]=1;
+						
+					}
+				}
+				 
 			}
-			cout<<endl;
-		}//forj
-	}//endif	
+		}
+		printCharMatrix(matriz,x,y);
+		cout<<endl;
+		cout<<endl;
+		
+		round++;	
+		getch();
+	}
+	
+	
+	freeCharMatrix(matriz,x,y);
 }
+
+
+
 
 int ** creatIntMatrix(int x, int y ){
 	int** matriz = NULL;
@@ -88,13 +285,13 @@ int main (){
 			}
 			//imprimimos la matriz 
 			printCharMatrix(matriz,columnas,filas);
+			cout<<endl;
+			cout<<endl;
+			
+			Conway(matriz,columnas,filas,turnos);
+			
 			// liberamos la matriz
 			freeCharMatrix(matriz,columnas,filas);
-			
-			
-		 
-	
-			
 			
 			break;
 		//case 2 : 
