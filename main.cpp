@@ -24,10 +24,12 @@ void printCharMatrix(int ** matriz, int x,int y){
 			}
 			cout<<endl;
 		}//forj
-	}//endif	
+	}else {//endif	
+	cout<< "la matriz que enviaste esta vacia"<< endl;
+}
 }
 
-void freeCharMatrix(int**& matriz, int x,int y){
+void freeCharMatrix(int** matriz, int x,int y){
 	//liberar la memoria de la matriz
 	if(matriz!=NULL){
 		
@@ -43,13 +45,43 @@ void freeCharMatrix(int**& matriz, int x,int y){
 	}
 }
 
+int ** creatIntMatrix(int x, int y ){
+	int** matriz = NULL;
+	matriz = new int*[y];
+		for(int i = 0; i<y;i++){
+			matriz[i] = new int[x]; 
+		}
+			
+	return matriz ;
+}
 
-void Conway(int**& matriz, int x,int y, int turnos){
-	int round =1;
-	while (round <=turnos ){
-		for(int i=0;i < y; i++){
-			for (int j =0 ; j < x; j++){
+
+int** Conway(int** matriz, int x,int y, int turnos){
+	int** matriz_futura=NULL;
+	cout<<"Entre a conway";
+	
+	matriz_futura= creatIntMatrix(x,y);
+	cout<< "Cree la matriz";
+	
+	/*for(int i = 0; i < y ; i++){
+		for(int j = 0; j < x ; j++){
+			matriz_futura[i][j] = matriz[i][j];
+		}
+	}*/
+	//cout<< "Le di los valores a la nueva matriz";
+	
+	//cout<<"Muchacho estoy en conway pero no sigo";
+	//int round =1;
+	//while (round <=turnos ){
+	//for (int round =0;round< turnos; round ++){
+	
+		for(int i=0;i <y; i++){
+			
+			
+			
+			for (int j =0 ; j <x; j++){
 				int vecinos_vivos=0;
+				//cout<<"entre al for";
 				
 				//evaluacion de la primera celula
 				if (i==0 &&j==0){
@@ -200,53 +232,52 @@ void Conway(int**& matriz, int x,int y, int turnos){
 					
 				}
 				// FINAL DE LAS VALIDACIONES 
-				// medir los vecinos y decision si vive o muere
-					/*1.Cualquier célula viva con menos de dos vecinos vivos muere (por subpoblación).
-					2.Cualquier célula viva con dos o tres vecinos vivos vive hasta la próxima generación.
-					3.Cualquier célula vivacon más de tres vecinos vivos muere (por sobrepoblación).
-					4.Cualquier célula muerta con exactamente tres vecinos vivos se convierte en una célula viva (por reproducción).*/
-				
+				// medir los vecinos y decision si vive o muera
+				//cout<< "VALOR DE MATRIZ[i][j]   "<< matriz[i][j]<<endl;
+				//cout << "VALOR DE VECINOS  "<< vecinos_vivos << endl;
 				if (matriz[i][j]==1){
 					if (vecinos_vivos<2){
-						matriz[i][j]=0;
+						matriz_futura[i][j]=0;
 					}else if (vecinos_vivos==2 ||vecinos_vivos==3){
-						matriz[i][j]=1;
+						matriz_futura[i][j]=1;
 					}else if (vecinos_vivos>3){
-						matriz[i][j]=0;
+						matriz_futura[i][j]=0;
 					}
 				}else if (matriz[i][j]==0){
 					if (vecinos_vivos==3){
-						matriz[i][j]=1;
+						matriz_futura[i][j]=1;
 						
+					}else{
+						matriz_futura[i][j]=0;
 					}
 				}
-				 
+				cout <<"Pase de la validacion de las matrizes y "<< "matriz[i][j] vale : "<<
+				 matriz[i][j] << "matriz futura[i][j]  "<<matriz_futura[i][j]<< endl;
+			
 			}
+			//	cout<<endl;
+			//	 cout <<"estoy en el for de i pero me crasheo en "<< i << endl;
+			//	cout<<endl;
+			//cout<<"SALI DEL FOR DE j y ESTOY EN EL DE i";
 		}
-		printCharMatrix(matriz,x,y);
-		cout<<endl;
+		
+	
 		cout<<endl;
 		
-		round++;	
-		getch();
+		cout<<endl;
+		
+		
+		return matriz_futura;
 	}
 	
 	
-	freeCharMatrix(matriz,x,y);
-}
+	//freeCharMatrix(matriz,x,y);
 
 
 
 
-int ** creatIntMatrix(int x, int y ){
-	int** matriz = NULL;
-	matriz = new int*[y];
-		for(int i = 0; i<y;i++){
-			matriz[i] = new int[x]; 
-		}
-			
-	return matriz ;
-}
+
+
 
 
 int main (){
@@ -261,7 +292,9 @@ int main (){
 	cin >>respuesta;
 	switch (respuesta){
 		case 1:
-			int columnas,filas;
+			
+			int columnas;
+			int filas;
 		
 			int turnos;
 			cout << "Ingrese la cantidad de columnas en la matriz : "<<endl ;
@@ -288,14 +321,74 @@ int main (){
 			cout<<endl;
 			cout<<endl;
 			
-			Conway(matriz,columnas,filas,turnos);
+			for(int rounds=0; rounds< turnos ; rounds++){
+				 matriz= Conway(matriz,columnas,filas,turnos);
+				cout<<"Pase de conway voy a print a ver que pedos"<< endl;
+				printCharMatrix(matriz,columnas,filas);
+				cout<<endl;
+				cout<<endl;
+				cin.get();
+			}
+			
 			
 			// liberamos la matriz
 			freeCharMatrix(matriz,columnas,filas);
 			
 			break;
-		//case 2 : 
-			//break;
+			
+		case 2 :
+			 turnos=0 ;
+			cout<< "Ingrese cuantos turnos quiere jugar con la predeterminada :";
+			cin>> turnos;
+			int x = 20;
+			int y = 20;	
+			
+			int temp_mat [20][20] = {	
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,1,0,0,0,0,0,0,0,1,1,1,0,0,0,1,1,0,0},
+			{0,0,1,0,0,0,0,0,0,1,1,1,0,0,0,0,1,0,1,0},
+			{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+			};
+					
+			int ** matriz2 = new int*[y];
+			for(int i = 0; i < y ; i++){
+				matriz2[i] = new int[x];
+				for(int j = 0; j < x ; j++){
+					matriz2[i][j] = temp_mat[i][j];
+				}
+			}
+			print printCharMatrix(matriz2,x,y);
+			
+			for(int rounds=0; rounds< turnos ; rounds++){
+				 matriz2= Conway(matriz2,columnas,filas,turnos);
+				cout<<"Pase de conway voy a print a ver que pedos"<< endl;
+				printCharMatrix(matriz2,columnas,filas);
+				cout<<endl;
+				cout<<endl;
+				cin.get();
+			}
+			
+			
+			// liberamos la matriz
+			freeCharMatrix(matriz,columnas,filas);
+			 
+			break;
 		//case 3 : 
 			//break;
 		
