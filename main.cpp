@@ -58,22 +58,16 @@ int ** creatIntMatrix(int x, int y ){
 
 int** Conway(int** matriz, int x,int y, int turnos){
 	int** matriz_futura=NULL;
-	cout<<"Entre a conway";
+	//cout<<"Entre a conway";
 	
 	matriz_futura= creatIntMatrix(x,y);
-	cout<< "Cree la matriz";
+//	cout<< "Cree la matriz";
 	
-	/*for(int i = 0; i < y ; i++){
+	for(int i = 0; i < y ; i++){
 		for(int j = 0; j < x ; j++){
 			matriz_futura[i][j] = matriz[i][j];
 		}
-	}*/
-	//cout<< "Le di los valores a la nueva matriz";
-	
-	//cout<<"Muchacho estoy en conway pero no sigo";
-	//int round =1;
-	//while (round <=turnos ){
-	//for (int round =0;round< turnos; round ++){
+	}
 	
 		for(int i=0;i <y; i++){
 			
@@ -98,7 +92,7 @@ int** Conway(int** matriz, int x,int y, int turnos){
 					
 					//Aqui veremos si hay que ponerle el cambio aqui o despues jeje
 					
-				}else if(i==0	&&	j>0	&&	j<x-1){//validaciones de la primera fila
+				}else if(i==0	&&	j!=x-1){//validaciones de la primera fila
 					if (matriz[i][j-1]==1){
 						vecinos_vivos++;
 					}
@@ -127,7 +121,7 @@ int** Conway(int** matriz, int x,int y, int turnos){
 					}
 					
 				//Aqui veremos si hay que ponerle el cambio aqui o despues jeje
-				}else if (j==0 && i <y-1){ 	//validacion si la celula esta en la primera columna y no es la ultima de la columna
+				}else if (j==0 && i !=y-1){ 	//validacion si la celula esta en la primera columna y no es la ultima de la columna
 					if (matriz[i-1][j]==1){
 						vecinos_vivos++;
 					}
@@ -173,7 +167,7 @@ int** Conway(int** matriz, int x,int y, int turnos){
 					if (matriz[i][j+1]==1){
 						vecinos_vivos++;
 					}
-				}else if (i==y-1 && j!=0 && j<x-2 ){ //validacion si esta en la ultima fila 
+				}else if (i==y-1 && j!=x-1 ){ //validacion si esta en la ultima fila 
 					if (matriz[i][j-1]==1){
 						vecinos_vivos++;	
 					}
@@ -251,20 +245,14 @@ int** Conway(int** matriz, int x,int y, int turnos){
 						matriz_futura[i][j]=0;
 					}
 				}
-				cout <<"Pase de la validacion de las matrizes y "<< "matriz[i][j] vale : "<<
-				 matriz[i][j] << "matriz futura[i][j]  "<<matriz_futura[i][j]<< endl;
+				//cout <<"Voy por la i : "<< i << endl;
+				//cout <<"Pase de la validacion de las matrizes y "<< "matriz[i][j] vale : "<<
+				// matriz[i][j] << "matriz futura[i][j]  "<<matriz_futura[i][j]<< endl;
 			
 			}
-			//	cout<<endl;
-			//	 cout <<"estoy en el for de i pero me crasheo en "<< i << endl;
-			//	cout<<endl;
-			//cout<<"SALI DEL FOR DE j y ESTOY EN EL DE i";
-		}
-		
 	
-		cout<<endl;
-		
-		cout<<endl;
+		}
+		cout<< endl;
 		
 		
 		return matriz_futura;
@@ -325,10 +313,8 @@ int main (){
 			
 			for(int rounds=0; rounds< turnos ; rounds++){
 				 matriz= Conway(matriz,columnas,filas,turnos);
-				cout<<"Pase de conway voy a print a ver que pedos"<< endl;
+				//cout<<"Pase de conway voy a print a ver que pedos"<< endl;
 				printCharMatrix(matriz,columnas,filas);
-				cout<<endl;
-				cout<<endl;
 				cin.get();
 			}
 			
@@ -381,12 +367,13 @@ int main (){
 			
 			for(int rounds=0; rounds< turnos ; rounds++){
 				 matriz2= Conway(matriz2,x,y,turnos);
-				cout<<"Pase de conway voy a print a ver que pedos"<< endl;
+				//cout<<"Pase de conway voy a print a ver que pedos"<< endl;
 				printCharMatrix(matriz2,x,y);
-				cout<<endl;
-				cout<<endl;
 				cin.get();
 			}
+			
+			
+		
 			
 			
 			// liberamos la matriz
