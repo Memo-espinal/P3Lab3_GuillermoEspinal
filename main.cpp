@@ -291,7 +291,9 @@ int main (){
 
 	cin >>respuesta;
 	switch (respuesta){
-		case 1:
+		case 1:{
+			
+		
 			
 			int columnas;
 			int filas;
@@ -335,9 +337,11 @@ int main (){
 			freeCharMatrix(matriz,columnas,filas);
 			
 			break;
+		}
 			
-		case 2 :
-			 turnos=0 ;
+		case 2 :{
+			
+			 int turnos=0 ;
 			cout<< "Ingrese cuantos turnos quiere jugar con la predeterminada :";
 			cin>> turnos;
 			int x = 20;
@@ -373,12 +377,12 @@ int main (){
 					matriz2[i][j] = temp_mat[i][j];
 				}
 			}
-			print printCharMatrix(matriz2,x,y);
+		 printCharMatrix(matriz2,x,y);
 			
 			for(int rounds=0; rounds< turnos ; rounds++){
-				 matriz2= Conway(matriz2,columnas,filas,turnos);
+				 matriz2= Conway(matriz2,x,y,turnos);
 				cout<<"Pase de conway voy a print a ver que pedos"<< endl;
-				printCharMatrix(matriz2,columnas,filas);
+				printCharMatrix(matriz2,x,y);
 				cout<<endl;
 				cout<<endl;
 				cin.get();
@@ -386,11 +390,14 @@ int main (){
 			
 			
 			// liberamos la matriz
-			freeCharMatrix(matriz,columnas,filas);
+			freeCharMatrix(matriz2,x,y);
 			 
 			break;
-		//case 3 : 
-			//break;
+		}
+		case 3 : {
+			break;
+		}
+		
 		
 	}
 	
